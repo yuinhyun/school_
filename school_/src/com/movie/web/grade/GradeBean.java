@@ -8,7 +8,7 @@ package com.movie.web.grade;
  *@story
  */
 public class GradeBean {
-	private String name;
+	private String id;
 	private int hak, java, sql, jsp, spring;
 	
 	
@@ -17,8 +17,8 @@ public class GradeBean {
 	
 	}
 	
-	public GradeBean(int hak,String name,int java, int sql, int jsp , int spring) {
-		this.name = name;
+	public GradeBean(int hak,String id,int java, int sql, int jsp , int spring) {
+		this.id = id;
 		this.hak = hak;
 		this.java = java;
 		this.sql = sql;
@@ -65,17 +65,17 @@ public class GradeBean {
 		this.spring = spring;
 	}
 
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "성적 [이름=" + name + ", 학번=" + hak + ", 자바=" + java + ", SQL=" + sql + ", JSP=" + jsp
+		return "성적 [이름=" + id + ", 학번=" + hak + ", 자바=" + java + ", SQL=" + sql + ", JSP=" + jsp
 				+ ", 스프링=" + spring + "]";
 	}
 }

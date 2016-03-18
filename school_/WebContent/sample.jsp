@@ -4,9 +4,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>메인화면</title>
+	<title>Document</title>
 </head>
 <body>
-	<a href="login.jsp">로그인화면</a>
+	
 </body>
 </html>

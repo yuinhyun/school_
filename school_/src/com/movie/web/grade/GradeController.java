@@ -20,7 +20,7 @@ public class GradeController {
 			case 2:
 				System.out.println("수정하려는 성적표의 학번, JAVA, SQL,JSP,Spring,스프링점수를 입력하시오");
 				int hak = scanner.nextInt();
-				String name = Service.getGradeByHak(hak).getName();
+				String name = Service.getGradeByHak(hak).getId();
 				System.out.println(Service.update(new GradeBean(hak,name,scanner.nextInt(),scanner.nextInt(),scanner.nextInt(),scanner.nextInt())));
 				
 				break;
@@ -40,7 +40,7 @@ public class GradeController {
 				System.out.println("조회 하려는 학번을 입력하세요");
 				GradeBean temp = Service.getGradeByHak(scanner.nextInt());
 				
-				System.out.println( temp.getName()==null ? "조회하려는 학번이 없습니다.":temp.toString());
+				System.out.println( temp.getId()==null ? "조회하려는 학번이 없습니다.":temp.toString());
 				break;
 			case 7:
 				System.out.println(Service.getCount()+ " 명");

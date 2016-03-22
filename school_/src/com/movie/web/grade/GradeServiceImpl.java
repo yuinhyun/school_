@@ -1,95 +1,76 @@
 package com.movie.web.grade;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
-public class GradeServiceImpl implements GradeService {
-	/*
-	 * private String name; private int hak, java, sql, jsp, spring;
-	 */
-
+public class GradeServiceImpl implements GradeService{
 	// 멤버 필드
-	// 속성을 모아놓은곳 (Bean)
-	private ArrayList<GradeBean> gradeList;
+	ArrayList<GradeBean> gradeList;
 	GradeDAO dao = new GradeDAOImpl(); 
-	// ArrayList<GradeBean> gradeList = new ArrayList<GradeBean>(); //인스턴스변수
-	
 	public GradeServiceImpl() {
-		gradeList = new ArrayList<GradeBean>(); // 인스턴스 변수 초기화
+		gradeList = new ArrayList<GradeBean>(); // 초기화
 	}
-	// 메서드 내부에 위치하면 참조변수(공유를 안하므로)
 	// 멤버 메소드 에어리어
-	// 기능을 모아놓은곳(Service)
-
 	@Override
-	public void input(GradeBean gradeBean) {
-		// 성적표 등록 C
-		gradeList.add(new GradeBean(2, "김구", 100, 100, 100, 100));
-		gradeList.add(new GradeBean(3, "완유신", 90, 90, 90, 90));
-		gradeList.add(new GradeBean(4, "강유신", 80, 80, 80, 80));
-		gradeList.add(new GradeBean(5, "맘유신", 700, 70, 70, 70));
-		gradeList.add(new GradeBean(6, "후유신", 60, 60, 60, 60));
-		gradeList.add(new GradeBean(7, "김구", 50, 50, 50, 50));
-		gradeList.add(gradeBean);
+	public void input(GradeBean grade) {
+		// 성적표 등록 
+		gradeList.add(new GradeBean(2,"김구",100,100,100,100));
+		gradeList.add(new GradeBean(3,"강감찬",90,90,90,90));
+		gradeList.add(new GradeBean(4,"유관순",80,80,80,80));
+		gradeList.add(new GradeBean(5,"김구",70,70,70,70));
+		gradeList.add(grade);
 	}
 
 	@Override
-	public List<GradeMemberBean> getList() {
-		// 성적표 리스트 출력 R
-
-		return dao.selectAll();
-
+	public ArrayList<GradeBean> getList() {
+		// 성적표 리스트 출력
+		return gradeList;
 	}
 
 	@Override
 	public GradeMemberBean getGradeByHak(int hak) {
-		// 성적표 조회(학번) R
-
+		// 성적표 조회(학번)
+	
 		return dao.selectGradeByHak(hak);
-
 	}
 
 	@Override
-	public List<GradeMemberBean> getGradesByName(String name) {
-		// 성적표 조회(이름) R
-
-		return dao.selectGradeByName(name);
+	public ArrayList<GradeMemberBean> getGradesByName(String name) {
+		// 성적표 조회(이름)
+		return dao.selecctGradesByName(name);
+		
 	}
 
 	@Override
 	public String update(GradeBean grade) {
-		String result = "학번이 없습니다.";
-		if (gradeList.contains(getGradeByHak(grade.getHak()))) {
-			
-			result = "수정성공";
-
-		}
+		// 성적표 수정
+		String result = "수정하려는 학번이 존재하지 않음";
+		
 		return result;
-		// 성적표 수정 U
-
 	}
 
 	@Override
 	public String delete(int hak) {
-
-		return (gradeList.remove(this.getGradeByHak(hak))) ? "삭제성공" : "삭제실패";
-		// 성적표 삭제 D
-
+		// 성적표 삭제
+		return (gradeList.remove(getGradeByHak(hak))) ? "삭제 성공" : "삭제 실패";
 	}
 
 	@Override
 	public int getCount() {
-		// R 카운트 조회
-
+		// 카운트 조회
 		return gradeList.size();
-
 	}
 
 	@Override
 	public void getCountByName() {
-		// R 이름조회시 카운트 조회
-
+		// 이름조회시 카운트 조회
+		
+	}
+	@Override
+	public GradeBean getGradeById(String id) {
+		// TODO Auto-generated method stub
+		return dao.getGradeById(id);
 	}
 
 }

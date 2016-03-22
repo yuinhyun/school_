@@ -1,6 +1,8 @@
 package com.movie.web.grade;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GradeServiceImpl implements GradeService {
 	/*
@@ -10,8 +12,9 @@ public class GradeServiceImpl implements GradeService {
 	// 멤버 필드
 	// 속성을 모아놓은곳 (Bean)
 	private ArrayList<GradeBean> gradeList;
-
+	GradeDAO dao = new GradeDAOImpl(); 
 	// ArrayList<GradeBean> gradeList = new ArrayList<GradeBean>(); //인스턴스변수
+	
 	public GradeServiceImpl() {
 		gradeList = new ArrayList<GradeBean>(); // 인스턴스 변수 초기화
 	}
@@ -32,55 +35,33 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public ArrayList<GradeBean> getList() {
+	public List<GradeMemberBean> getList() {
 		// 성적표 리스트 출력 R
 
-		return gradeList;
+		return dao.selectAll();
 
 	}
 
 	@Override
-	public GradeBean getGradeByHak(int hak) {
+	public GradeMemberBean getGradeByHak(int hak) {
 		// 성적표 조회(학번) R
-		GradeBean tempGrade = new GradeBean();
-		for (int i = 0; i < gradeList.size(); i++) {
-			// System.out.println(gradeList.get(i).getHak());
 
-			if (gradeList.get(i).getHak() == hak) {
-				tempGrade = gradeList.get(i);
-
-				break;
-			}
-		}
-
-		return tempGrade;
+		return dao.selectGradeByHak(hak);
 
 	}
 
 	@Override
-	public ArrayList<GradeBean> getGradesByName(String name) {
+	public List<GradeMemberBean> getGradesByName(String name) {
 		// 성적표 조회(이름) R
-		ArrayList<GradeBean> tempList = new ArrayList<GradeBean>();
-		for (int i = 0; i < gradeList.size(); i++) {
-			if (name.equals(gradeList.get(i).getId())) {
-				tempList.add(gradeList.get(i));
 
-			}
-
-		}
-
-		return tempList;
+		return dao.selectGradeByName(name);
 	}
 
 	@Override
 	public String update(GradeBean grade) {
 		String result = "학번이 없습니다.";
 		if (gradeList.contains(getGradeByHak(grade.getHak()))) {
-			GradeBean searchedGrade = getGradeByHak(grade.getHak());
-			searchedGrade.setJava(grade.getJava());
-			searchedGrade.setSql(grade.getSql());
-			searchedGrade.setJsp(grade.getJsp());
-			searchedGrade.setSpring(grade.getSpring());
+			
 			result = "수정성공";
 
 		}

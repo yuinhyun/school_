@@ -11,32 +11,30 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.movie.web.global.Command;
 import com.movie.web.global.CommandFactory;
-import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane.ScalableIconUIResource;
+import com.movie.web.global.DispactcherServlet;
+import com.movie.web.global.Seperator;
 
 @WebServlet({"/member/login_form.do",
 	"/member/join_form.do","/member/update_form.do",
 	"/member/join.do",
-	"/member/login.do"})
+	"/member/login.do",
+	"/member/update.do",
+	"/member/delete.do"
+	})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static MemberService service = MemberServiceImpl.getInstance();
     
 	// 페이지 이동시에는 doGet  
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	System.out.println("인덱스에서 들어옴");
     	Command command = new Command();
-    	MemberService service = new MemberServiceImpl();
+    	
     	MemberBean member = new MemberBean();
-    	String id="",password="";
-    	String path = request.getServletPath();
-		String temp = path.split("/")[2];
-		String directory = path.split("/")[1];
-	//	arr[1] = temp3.split("\\.")[0]; 이 방법도 가능
-		String action = temp.substring(0, temp.indexOf("."));
-		
-		switch (action) {
-		case "join":
-			
-			break;
+    	String[] str = Seperator.doSomething(request, response);
+    	String action = str[0], directory=str[1];
+    	switch (action) {
 		case "login" :
 			
 			if (service.isMember(request.getParameter("id")) == true) {
@@ -57,23 +55,84 @@ public class MemberController extends HttpServlet {
 			
 			
 			break;
-			case "update_form":
-				System.out.println("=== 수정 폼으로 진입 ===");
+			
+		case "update_form":
+				
+			System.out.println("=== 수정 폼으로 진입 ===");
+			request.setAttribute("member", service.detail(request.getParameter("id")));
+			command = CommandFactory.createCommand(directory,action);
+			break;
+		
+		case "delete":
+			
+			if (service.remove(request.getParameter("id"))==1) {
+				
+				command = CommandFactory.createCommand(directory,"login_form");
+			}
+			else
+			{
 				request.setAttribute("member", service.detail(request.getParameter("id")));
-				command = CommandFactory.createCommand(directory,action);
-				break;
+				command = CommandFactory.createCommand(directory, "detail");
+			}
+			break;
+			
 		default:
 			command = CommandFactory.createCommand(directory,action);
 			break;
 		}
 		System.out.println("오픈될 페이지 :"+command.getView());
-		RequestDispatcher dis = 
-		request.getRequestDispatcher(command.getView());
-		dis.forward(request, response);
+		DispactcherServlet.DispactcherServlet(request, response, command);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Command command = new Command();
+    	MemberBean member = new MemberBean();
+    	String[] str = Seperator.doSomething(request, response);
+    	String action = str[0], directory=str[1];
+		switch (action) {
+		case "join":
+			
+			int result =service.join(member);
+			member.setId(request.getParameter("id"));
+			member.setName(request.getParameter("name"));
+			member.setPassword(request.getParameter("password"));
+			member.setAddr(request.getParameter("addr"));
+			member.setBirth(Integer.parseInt(request.getParameter("birth")));
+			if(service.join(member)==1)
+			{
+				command = CommandFactory.createCommand(directory,"login_form");
+			}
+			else{
+				command = CommandFactory.createCommand(directory,"join_form");
+			}
+			break;
+		case "update":
+			System.out.println("=== 수정  진입 ===");
+			member.setId(request.getParameter("id"));
+			member.setName(request.getParameter("name"));
+			member.setPassword(request.getParameter("password"));
+			member.setAddr(request.getParameter("addr"));
+			member.setBirth(Integer.parseInt(request.getParameter("birth")));
+			
+			if(service.update(member)==1)
+			{
+				request.setAttribute("member", service.detail(request.getParameter("id")));
+				command = CommandFactory.createCommand(directory,"login_form");
+			}
+			else{
+				request.setAttribute("member", service.detail(request.getParameter("id")));
+				command = CommandFactory.createCommand(directory,"join_form");
+			}
+			break;
 		
+		
+		default:
+			command = CommandFactory.createCommand(directory,action);
+			break;
+		}
+		System.out.println("join페이지 :"+command.getView());
+		DispactcherServlet.DispactcherServlet(request, response, command);
 	}
+		
 
 }

@@ -2,18 +2,28 @@ package com.movie.web.member;
 
 import java.util.HashMap;
 
+import com.movie.web.grade.GradeDAO;
+import com.movie.web.grade.GradeDAOImpl;
+
 public class MemberServiceImpl implements MemberService{
-	
+	private static MemberServiceImpl instance = new MemberServiceImpl();
 	HashMap<String,MemberBean> map;
-	MemberDAO dao = new MemberDAOImpl();
+	
+	public static MemberServiceImpl getInstance() {
+		return instance;
+	}
+	
+	MemberDAO dao = MemberDAOImpl.getInstance();
+	
+	
 	
 	public MemberServiceImpl() {
 		map = new HashMap<String,MemberBean>();
 	}
 	@Override
-	public void join(MemberBean member) {
+	public int join(MemberBean member) {
 		// 회원가입
-		map.put(member.getId(), member);
+		return dao.insert(member);
 	}
 
 	@Override
@@ -33,15 +43,16 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void update(MemberBean member) {
+	public int update(MemberBean member) {
+		return dao.update(member);
 		// 수정
 		
 	}
 
 	@Override
-	public void remove(String id) {
+	public int remove(String id) {
 		// 삭제
-		
+		return dao.delete(id);
 	}
 
 	@Override

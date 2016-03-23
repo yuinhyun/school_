@@ -7,7 +7,13 @@ import java.util.ArrayList;
 public class GradeServiceImpl implements GradeService{
 	// 멤버 필드
 	ArrayList<GradeBean> gradeList;
-	GradeDAO dao = new GradeDAOImpl(); 
+	
+	private static GradeServiceImpl instance= new GradeServiceImpl();
+	GradeDAO dao = GradeDAOImpl.getInstance();
+	
+	public static GradeServiceImpl getInstance() {
+		return instance;
+	}
 	public GradeServiceImpl() {
 		gradeList = new ArrayList<GradeBean>(); // 초기화
 	}

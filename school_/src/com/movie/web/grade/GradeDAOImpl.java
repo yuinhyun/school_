@@ -21,9 +21,16 @@ public class GradeDAOImpl implements GradeDAO {
 	private PreparedStatement pstmt; // 쿼리 전송 객체2
 	private ResultSet rs; // 리턴값 회수 객체
 	
+	private static GradeDAO instance = new GradeDAOImpl();
+	
+	
+	public static GradeDAO getInstance() {
+		return instance;
+	}
+
 	public GradeDAOImpl() {
-		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD)
-				.getConnection();
+		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD).getConnection();
+		//초기화작업은 메서드에서 생성자 생성
 	}
 	
 	@Override
@@ -45,9 +52,6 @@ public class GradeDAOImpl implements GradeDAO {
 		Map<String,Object> map = new HashMap<String,Object>();
 		GradeMemberBean bean = new GradeMemberBean();
 		try {
-			Class.forName(Constants.ORACLE_DRIVER);
-			conn = DriverManager.getConnection(Constants.ORACLE_URL,
-					Constants.ID, Constants.PASSWORD);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM GradeMember WHERE hak ='"+hak+"'");
 			while (rs.next()) {
@@ -79,9 +83,6 @@ public class GradeDAOImpl implements GradeDAO {
 		// TODO Auto-generated method stub
 		ArrayList<GradeMemberBean> list = new ArrayList<>();		
 		try {
-			Class.forName(Constants.ORACLE_DRIVER);
-			conn = DriverManager.getConnection(Constants.ORACLE_URL,
-					Constants.ID, Constants.PASSWORD);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM GradeMember WHERE name ='"+name+"'");
 			while (rs.next()) {
@@ -110,9 +111,6 @@ public class GradeDAOImpl implements GradeDAO {
 	public int count() {
 		int count = 0;
 		try {
-			Class.forName(Constants.ORACLE_DRIVER);
-			conn = DriverManager.getConnection(Constants.ORACLE_URL,
-					Constants.ID, Constants.PASSWORD);
 			stmt = conn.createStatement();
 			stmt.executeQuery("SELECT * FROM GradeMember").last();
 			count = rs.getRow();
@@ -139,9 +137,6 @@ public class GradeDAOImpl implements GradeDAO {
 	public GradeBean getGradeById(String id) {
 		GradeBean bean = new GradeBean();
 		try {
-			Class.forName(Constants.ORACLE_DRIVER);
-			conn = DriverManager.getConnection(Constants.ORACLE_URL,
-					Constants.ID, Constants.PASSWORD);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM Grade WHERE id ='"+id+"'");
 			while (rs.next()) {

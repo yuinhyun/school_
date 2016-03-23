@@ -19,8 +19,17 @@ INSERT INTO Member(id, name, password, addr, birth)
 VALUES('lee', '이기동','5','인천',820716);
 INSERT INTO Member(id, name, password, addr, birth)
 VALUES('lee2', '이기동','5','LA',820716);
-INSERT INTO Member
+INSERT INTO Member(id, name, password, addr, birth)
 VALUES('mang', '망둥어','6','대구',830704);
+INSERT INTO Member(id, name, password, addr, birth)
+VALUES('you', '유아인','1','강릉',860424);
 
-SELECT * FROM Member
-WHERE name ='이기동';
+SELECT * FROM Member;
+WHERE id ='choi';
+
+DELETE FROM Member WHERE id ='yuyuyuyu';
+DELETE FROM Member WHERE id ='hong';
+
+UPDATE Member
+SET password = '2', addr ='서울'
+WHERE id ='choi';

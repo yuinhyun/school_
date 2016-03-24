@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+회원 추가 화면 
+Grade table 정보 
+socore_seq, id, java, jsp, sql, Spring 
 </body>
 </html>

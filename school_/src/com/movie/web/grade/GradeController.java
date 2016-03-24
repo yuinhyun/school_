@@ -16,7 +16,7 @@ import com.movie.web.global.CommandFactory;
 /**
  * Servlet implementation class GradeController
  */
-@WebServlet("/grade/my_grade.do")
+@WebServlet({"/grade/my_grade.do","/grade/grade_list.do"})
 public class GradeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static GradeService service = GradeServiceImpl.getInstance();
@@ -41,6 +41,8 @@ public class GradeController extends HttpServlet {
 			command = CommandFactory.createCommand(directory,action);
 			
 			break;
+			
+		
 
 		default:
 			break;

@@ -19,7 +19,8 @@ import com.movie.web.global.Seperator;
 	"/member/join.do",
 	"/member/login.do",
 	"/member/update.do",
-	"/member/delete.do"
+	"/member/delete.do",
+	"/member/admin_form.do"
 	})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

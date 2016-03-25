@@ -25,8 +25,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public int addScore(GradeMemberBean bean) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.addScore(bean);
 	}
 	
 	

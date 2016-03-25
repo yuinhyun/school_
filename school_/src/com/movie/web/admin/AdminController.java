@@ -14,12 +14,13 @@ import com.movie.web.global.Command;
 import com.movie.web.global.CommandFactory;
 import com.movie.web.global.DispactcherServlet;
 import com.movie.web.global.Seperator;
+import com.movie.web.grade.GradeBean;
 import com.movie.web.grade.GradeMemberBean;
 
 /**
  * Servlet implementation class AdminController
  */
-@WebServlet({"/grade/admin_list.do","/grade/grade_addform.do"})
+@WebServlet({"/grade/admin_list.do","/grade/grade_addform.do","/grade/grade_add.do"})
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AdminService service = AdminServiceImpl.getInstance();
@@ -34,8 +35,8 @@ public class AdminController extends HttpServlet {
     	
     	switch (action) {
 		case "grade_addform" :
-				System.out.println("=== 회원 정보 추가 화면 ===");
-				command = CommandFactory.createCommand(directory, "grade_add");
+			System.out.println("=== 회원 정보 추가 화면 ===");
+			command = CommandFactory.createCommand(directory, "grade_add");
 				break;
 				
 		case "admin_list":
@@ -45,10 +46,21 @@ public class AdminController extends HttpServlet {
 			request.setAttribute("totalScore", arrList);
 			command = CommandFactory.createCommand(directory,"grade_list");
 			break;
-/*		
+	
 		case "grade_add":
-				command = CommandFactory.createCommand(directory, "detail");
-			break;*/
+		System.out.println("=== 회원 정보 추가  ===");
+		GradeMemberBean Bean = new GradeMemberBean();
+		Bean.setId(request.getParameter("id"));
+		Bean.setJava(Integer.parseInt(request.getParameter("java")));
+		Bean.setSql(Integer.parseInt(request.getParameter("sql")));
+		Bean.setJsp(Integer.parseInt(request.getParameter("jsp")));
+		Bean.setSpring(Integer.parseInt(request.getParameter("spring")));
+		if(service.addScore(Bean)==1){
+			command = CommandFactory.createCommand("member", "admin_form");		    	
+		}else{
+			command = CommandFactory.createCommand(directory, "grade_add");
+		 }
+			break;
 			
 		default:
 			command = CommandFactory.createCommand(directory,action);

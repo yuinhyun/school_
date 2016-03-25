@@ -21,29 +21,28 @@ public class AdminDAOImpl implements AdminDAO {
 	private Statement stmt; // 쿼리 전송 객체
 	private PreparedStatement pstmt; // 쿼리 전송 객체2
 	private ResultSet rs; // 리턴값 회수 객체
-	
+
 	private static AdminDAO instance = new AdminDAOImpl();
-	
+
 	public static AdminDAO getInstance() {
 		return instance;
 	}
-	
+
 	public AdminDAOImpl() {
 		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD).getConnection();
-	}//초기화작업은 메서드에서 생성자 생성
-	
-	
+	}// 초기화작업은 메서드에서 생성자 생성
+
 	@Override
 	public List<GradeMemberBean> getMemberList() {
-		
+
 		GradeMemberBean member;
 		List<GradeMemberBean> arrList = new ArrayList<GradeMemberBean>();
-		
+
 		try {
 			pstmt = conn.prepareStatement("SELECT * FROM GradeMember");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				member= new GradeMemberBean();
+				member = new GradeMemberBean();
 				member.setId(rs.getString("id"));
 				member.setName(rs.getString("name"));
 				member.setPassword(rs.getString("password"));
@@ -57,7 +56,7 @@ public class AdminDAOImpl implements AdminDAO {
 				member.setSql(rs.getInt("sql"));
 				arrList.add(member);
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("ListMember()에서 에러 발생함 !!");
 			e.printStackTrace();
@@ -67,10 +66,23 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public int addScore(GradeMemberBean bean) {
-		
-		return 0;
-	}
+		int result = 0;
 
-	
+		try {
+			String sql = "INSERT INTO Grade(score_seq,id,java,sql,jsp,spring) VALUES (score_seq.nextval,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bean.getId());
+			pstmt.setInt(2, bean.getJava());
+			pstmt.setInt(3, bean.getSql());
+			pstmt.setInt(4, bean.getJsp());
+			pstmt.setInt(5, bean.getSpring());
+			result = pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("ListAdd()에서 에러 발생함 !!");
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

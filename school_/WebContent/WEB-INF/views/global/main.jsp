@@ -2,7 +2,7 @@
    pageEncoding="UTF-8"%>
 
 <jsp:include page="header.jsp" />
-<img src="${context}/img/main/background.jpg" alt="" width="100%" height=""/>
+<img src="${context}/resources/img/main/background.jpg" alt="" width="100%" height=""/>
 <br />
 <div style="margin-left: 43.5%;">
    <div><a href="${context}/member/login_form.do"> 로그인 화면 이동</a></div>

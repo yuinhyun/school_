@@ -6,15 +6,17 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>메인화면</title>
+<title>인덱스화면</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 <body>
-<form action="${context}/global/main.do">
-		<input type="submit" value="홈으로" />
-	</form>
-	<%-- a href = url
-	${context}=도메인
-	/member/login_form.do --%>
+	
+	<img src="${context}/resources/img/main/index.gif" id = "image" alt=""  style= "margin-left: 30%" />
 </body>
+<script type="text/javascript">
+	$(document).ready(function() {
+			location.href ="${context}/global/main.do";
+	});
+</script>
 </html>
 

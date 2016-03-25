@@ -14,6 +14,7 @@
 		<li class="dropdown active"><button onclick="opr.bigNum()">최대값 출력</button></li>
 		<li class="dropdown active"><button onclick="opr.gugudan()">구구단 출력</button></li>
 		<li class="dropdown active"><button onclick="opr.sum1to100()">합계 출력</button></li>
+		<li class="dropdown active"><button onclick="liveScript()">라이브스크립트 출력</button></li>
  		</ul>
  		    </div>
     <div class="col-xs-12 col-sm-8 display-cell" id="result" style="border: 1px solid black;height: 500px">
@@ -22,6 +23,11 @@
 </div>
 </div>
  <script type="text/javascript">
+ 
+ function liveScript() {
+	 altert('라이브스크립트 시절()');
+	
+}
  var opr = {
 	sysout : function() {
 		/* 이름이 없는 function을 sysout에 집어넣는다. */

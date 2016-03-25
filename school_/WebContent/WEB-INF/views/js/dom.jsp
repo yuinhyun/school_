@@ -46,48 +46,60 @@
  	
  	<div id="outbox">
  			<h3>document.getElementById()와 예제</h3>
- 			<button onclick="dom.show()">열기</button>
- 		<div id="inBox" style="background : red; display : none;">
- 			<button onclick ="dom.hide()">닫기</button>
- 		</div>
-	</div>
-
- 		<div>
- 			<h3>document.createTag1()의 예제</h3>
- 			<button onclick="dom.createTag1()">객체 만들기 1</button>
- 		</div>
- 	</div>
- 	
- 	<div>
- 		<div>
- 			<h3>document.selectElementsByTagName()의 예제</h3>
- 			<button onclick="dom.selectElementsByTagName()">태그이름으로 찾기</button>
- 		</div>
- 		<div>
- 			<span name='bbb'>1번</span>
- 			<span>2번</span>
- 			<span name='aaa'>3번</span>
- 			<span>4번</span>
- 			<span name='bbb'>5번</span>
- 			<span>6번</span>
- 		</div>
- 	</div>
- 	
- 	<div>
- 		<div>
- 			<h3>document.selectElementsByName()의 예제</h3>
- 			<button onclick="dom.selectElementsByName()">태그이름으로 찾기</button>
- 		</div>
- 		<div>
- 			<span name='bbb'>1번</span>
- 			<span>2번</span>
- 			<span name='aaa'>3번</span>
- 			<span>4번</span>
- 			<span name='bbb'>5번</span>
- 			<span>6번</span>
- 		</div>
- 	</div>
- 	<div id ="end_div" style="height:500px"></div>
+ 	       <button onclick="dom.show()">열기</button>
+    <div id="inBox" style="background : red; display : none;">
+          <button onclick ="dom.hide()">닫기</button>
+    </div>
+   </div>
+    <div>
+       <div>
+          <h3>append() 예제</h3>
+          <button onclick="dom.createTag1()">객체 만들기 1</button>
+       </div>
+    </div>
+    <div>
+       <div>
+          <h3>empty() 예제</h3>
+          <button onclick="dom.createTag2()">객체 만들기 2</button>
+       </div>
+    </div>
+    <div>
+       <div>
+          <h3>html() 예제</h3>
+          <button onclick="dom.createTag3()">객체 만들기 3</button>
+       </div>
+    </div>
+    
+    <div>
+       <div>
+          <h3>document.selectElementsByTagName()의 예제</h3>
+          <button onclick="dom.selectElementsByTagName()">태그이름으로 찾기</button>
+       </div>
+       <div>
+          <span name='bbb'>1번</span>
+          <span>2번</span>
+          <span name='aaa'>3번</span>
+          <span>4번</span>
+          <span name='bbb'>5번</span>
+          <span>6번</span>
+       </div>
+    </div>
+    
+    <div>
+       <div>
+          <h3>document.selectElementsByName()의 예제</h3>
+          <button onclick="dom.selectElementsByName()">태그이름으로 찾기</button>
+       </div>
+       <div>
+          <span name='bbb'>1번</span>
+          <span>2번</span>
+          <span name='aaa'>3번</span>
+          <span>4번</span>
+          <span name='bbb'>5번</span>
+          <span>6번</span>
+       </div>
+    </div>
+    <div id ="end_div"></div>
 </div>
 
 <script type="text/javascript">

@@ -1,17 +1,22 @@
 package com.movie.web.grade;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Vector;
+import java.util.List;
+
 
 /**
  * CRUD 
- * C : create 생성
- * R : read 조회
- * U : update 수정
- * D : delete 삭제
- * 
- * */
+ *  C : Create 생성
+ *  R : Read   조회
+ *  U : Update 수정
+ *  D : Delete 삭제
+ *@package : grade
+ *@file : GradeService.java
+ *@author inhyeon
+ *@date 2016. 3. 14.
+ *@story 속성은 감추고 기능은 오픈한다.
+ */
+
 public interface GradeService {
 	// C 성적표 등록 
 	public void input(GradeBean grade); // 추상 메소드

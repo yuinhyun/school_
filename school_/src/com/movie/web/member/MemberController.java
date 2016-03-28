@@ -1,6 +1,8 @@
 package com.movie.web.member;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,118 +10,108 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.movie.web.global.Command;
 import com.movie.web.global.CommandFactory;
-import com.movie.web.global.DispactcherServlet;
+import com.movie.web.global.DispatcherServlet;
 import com.movie.web.global.Seperator;
+import com.sun.java.swing.plaf.windows.WindowsInternalFrameTitlePane.ScalableIconUIResource;
+
+import javafx.scene.control.Separator;
 
 @WebServlet({"/member/login_form.do",
 	"/member/join_form.do","/member/update_form.do",
-	"/member/join.do",
-	"/member/login.do",
-	"/member/update.do",
-	"/member/delete.do",
-	"/member/admin_form.do"
-	})
+	"/member/join.do","/member/update.do","/member/delete.do",
+	"/member/login.do","/member/list.do"})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 	private static MemberService service = MemberServiceImpl.getInstance();
+	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("인덱스에서 들어옴");
-    	Command command = new Command();
+				System.out.println("인덱스에서 들어옴");
     	
+    	Command command = new Command();
     	MemberBean member = new MemberBean();
-    	String[] str = Seperator.doSomething(request, response);
-    	String action = str[0], directory=str[1];
-    	switch (action) {
-		
-			
-		case "update_form":
-				
-			System.out.println("=== 수정 폼으로 진입 ===");
-			request.setAttribute("member", service.detail(request.getParameter("id")));
-			command = CommandFactory.createCommand(directory,action);
-			break;
-		
-		case "delete":
-			
-			if (service.remove(request.getParameter("id"))==1) {
-				
-				command = CommandFactory.createCommand(directory,"login_form");
-			}
-			else
-			{
-				request.setAttribute("member", service.detail(request.getParameter("id")));
-				command = CommandFactory.createCommand(directory, "detail");
-			}
-			break;
-		
+    	HttpSession session = request.getSession();
+    	List<MemberBean> list = new ArrayList<MemberBean>();
+    	String[] str = Seperator.divide(request, response);
+    	//str[0] = action;
+    	//str[1] = directory;
+    	System.out.println(str[0]);
+  
+		switch (str[0]) {
 		case "login" :
-			
 			if (service.isMember(request.getParameter("id")) == true) {
 				System.out.println("=== 아이디가 존재함 ===");
 				member = service.login(request.getParameter("id"), request.getParameter("password"));
 				if (member == null) {
-					command = CommandFactory.createCommand(directory,"login_form");
+					command = CommandFactory.createCommand(str[1],"login_form");
 				}else{
 					System.out.println("=== 로그인 성공 ===");
-					request.setAttribute("member", member);
-					command = CommandFactory.createCommand(directory,"detail");
+					//request.setAttribute("member", member);//지우기 속도 향상 //dom 담기 
+					session.setAttribute("user", member);//bom 담기
+					command = CommandFactory.createCommand(str[1],"detail");
 				}
-				
 			} else {
 				System.out.println("=== 로그인 실패 ===");
-				command = CommandFactory.createCommand(directory,"login_form");
+				command = CommandFactory.createCommand(str[1],"login_form");
 			}
 			
 			
 			break;
+		case "update_form":
+			System.out.println("=== 수정 폼으로 진입 ===");
 			
+			command = CommandFactory.createCommand(str[1],str[0]);
+			break;
+		
+		case "delete":
+				if (service.remove(request.getParameter("id"))==1) {
+					command = CommandFactory.createCommand(str[1],"login_form");
+				} else {
+					command = CommandFactory.createCommand(str[1],"detail");
+				}
+				break;
 		case "join":
-			
-			int result =service.join(member);
 			member.setId(request.getParameter("id"));
 			member.setName(request.getParameter("name"));
 			member.setPassword(request.getParameter("password"));
 			member.setAddr(request.getParameter("addr"));
 			member.setBirth(Integer.parseInt(request.getParameter("birth")));
-			if(service.join(member)==1)
-			{
-				command = CommandFactory.createCommand(directory,"login_form");
+			if (service.join(member)==1) {
+				command = CommandFactory.createCommand(str[1],"login_form");
+			} else {
+				command = CommandFactory.createCommand(str[1],"join_form");
 			}
-			else{
-				command = CommandFactory.createCommand(directory,"join_form");
-			}
+			
 			break;
 		case "update":
-			System.out.println("=== 수정  진입 ===");
 			member.setId(request.getParameter("id"));
 			member.setName(request.getParameter("name"));
 			member.setPassword(request.getParameter("password"));
 			member.setAddr(request.getParameter("addr"));
 			member.setBirth(Integer.parseInt(request.getParameter("birth")));
-			
-			if(service.update(member)==1)
-			{
-				request.setAttribute("member", service.detail(request.getParameter("id")));
-				command = CommandFactory.createCommand(directory,"login_form");
-			}
-			else{
-				request.setAttribute("member", service.detail(request.getParameter("id")));
-				command = CommandFactory.createCommand(directory,"join_form");
+			if (service.update(member)==1) { 
+				session.setAttribute("user", service.detail(request.getParameter("id")));
+				command = CommandFactory.createCommand(str[1],"detail");
+			}else{
+				command = CommandFactory.createCommand(str[1],"update_form");
 			}
 			break;
-		case "admin_form":
-			command = CommandFactory.createCommand(directory,action);
+		case "logout":
+			session.invalidate(); //세션을 종료 
+			command = CommandFactory.createCommand(str[1],"login_form"); //bom에있는것을 날리면 하부 Dom도 날라간다.
+			break;
+		case "list": 
+			request.setAttribute("list", service.getList());
+			command = CommandFactory.createCommand(str[1],"member_list");
 			break;
 		default:
-			command = CommandFactory.createCommand(directory,action);
+			command = CommandFactory.createCommand(str[1],str[0]);
 			break;
 		}
-		System.out.println("오픈될 페이지 :"+command.getView());
-		DispactcherServlet.DispactcherServlet(request, response, command);
-	}   
+		DispatcherServlet.Go(request, response, command);
+	}
 }

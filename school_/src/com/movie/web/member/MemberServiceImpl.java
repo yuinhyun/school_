@@ -1,13 +1,12 @@
 package com.movie.web.member;
 
 import java.util.HashMap;
-
-import com.movie.web.grade.GradeDAO;
-import com.movie.web.grade.GradeDAOImpl;
+import java.util.List;
 
 public class MemberServiceImpl implements MemberService{
-	private static MemberServiceImpl instance = new MemberServiceImpl();
+	private	static MemberServiceImpl instance = new MemberServiceImpl();
 	HashMap<String,MemberBean> map;
+	
 	
 	public static MemberServiceImpl getInstance() {
 		return instance;
@@ -44,9 +43,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int update(MemberBean member) {
+		// TODO Auto-generated method stub
 		return dao.update(member);
-		// 수정
-		
 	}
 
 	@Override
@@ -61,7 +59,7 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 	@Override
-	public boolean isMember(String id) {
+	public boolean isMember(String id ) {
 		boolean member = false;
 		member = dao.isMember(id);
 		
@@ -71,5 +69,10 @@ public class MemberServiceImpl implements MemberService{
 			return false;
 		}
 	}
-
-}
+	@Override
+	public List<MemberBean> getList() {
+		// TODO Auto-generated method stub
+		return dao.selectList();
+	}
+	
+	}

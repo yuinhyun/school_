@@ -1,80 +1,63 @@
 package com.movie.web.admin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.RequestDispatcher;
 
 import com.movie.web.global.Command;
 import com.movie.web.global.CommandFactory;
-import com.movie.web.global.DispactcherServlet;
+import com.movie.web.global.DispatcherServlet;
 import com.movie.web.global.Seperator;
 import com.movie.web.grade.GradeBean;
 import com.movie.web.grade.GradeMemberBean;
+import com.movie.web.grade.GradeService;
+import com.movie.web.grade.GradeServiceImpl;
+
+import oracle.net.ano.Service;
 
 /**
  * Servlet implementation class AdminController
  */
-@WebServlet({"/grade/admin_list.do","/grade/grade_addform.do","/grade/grade_add.do"})
+@WebServlet({"/admin/login_form.do","/admin/login.do","/admin/admin_form.do"})
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private AdminService service = AdminServiceImpl.getInstance();
        
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	Command command = new Command();
-    	List<GradeMemberBean> arrList = new ArrayList<GradeMemberBean>();
-    	
-    	String[] str = Seperator.doSomething(request, response);
-    	String action = str[0],directory=str[1];
-    	
-    	switch (action) {
-		case "grade_addform" :
-			System.out.println("=== 회원 정보 추가 화면 ===");
-			command = CommandFactory.createCommand(directory, "grade_add");
-				break;
-				
-		case "admin_list":
-				
-			System.out.println("=== list화면===");
-			arrList = service.getMemberList();
-			request.setAttribute("totalScore", arrList);
-			command = CommandFactory.createCommand(directory,"grade_list");
-			break;
-	
-		case "grade_add":
-		System.out.println("=== 회원 정보 추가  ===");
-		GradeMemberBean Bean = new GradeMemberBean();
-		Bean.setId(request.getParameter("id"));
-		Bean.setJava(Integer.parseInt(request.getParameter("java")));
-		Bean.setSql(Integer.parseInt(request.getParameter("sql")));
-		Bean.setJsp(Integer.parseInt(request.getParameter("jsp")));
-		Bean.setSpring(Integer.parseInt(request.getParameter("spring")));
-		if(service.addScore(Bean)==1){
-			command = CommandFactory.createCommand("member", "admin_form");		    	
-		}else{
-			command = CommandFactory.createCommand(directory, "grade_add");
-		 }
-			break;
+    	AdminBean admin = new AdminBean();
+    	HttpSession session = request.getSession();
+    	String[] str = Seperator.divide(request, response);
+    	AdminService service = (AdminService) AdminServiceImpl.getInstance();
+		
+		switch (str[0]) {
+		
+		case "admin_form": command = CommandFactory.createCommand(str[1], str[0]); break;
+		case "login" :
+			System.out.println("관리자 로그인 진입");
+			admin.setId(request.getParameter("id"));
+			admin.setPassword(request.getParameter("password"));
+			AdminBean temp = service.getAdmin(admin);
+			if (temp == null) {
+				System.out.println("관리자 로그인 실패");
+				command = CommandFactory.createCommand(str[1], "login_form");
+			} else {
+				System.out.println("관리자 로그인 성공");
+				session.setAttribute("admin", temp);
+				command = CommandFactory.createCommand(str[1], "admin_form");
+			}
 			
+			break;
 		default:
-			command = CommandFactory.createCommand(directory,action);
+			command = CommandFactory.createCommand(str[1], str[0]);
 			break;
 		}
-		System.out.println("오픈될 페이지 :"+command.getView());
-		DispactcherServlet.DispactcherServlet(request, response, command);
-	}
-    	
-
-	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
-	}
-
+		DispatcherServlet.Go(request, response, command);
+    }
+ 
 }

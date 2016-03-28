@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.movie.web.admin.AdminBean;
 import com.movie.web.global.Constants;
 import com.movie.web.global.DatabaseFactory;
 import com.movie.web.global.Vendor;
@@ -20,17 +21,15 @@ public class GradeDAOImpl implements GradeDAO {
 	private Statement stmt; // 쿼리 전송 객체
 	private PreparedStatement pstmt; // 쿼리 전송 객체2
 	private ResultSet rs; // 리턴값 회수 객체
-	
 	private static GradeDAO instance = new GradeDAOImpl();
-	
 	
 	public static GradeDAO getInstance() {
 		return instance;
 	}
 
 	public GradeDAOImpl() {
-		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD).getConnection();
-		//초기화작업은 메서드에서 생성자 생성
+		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD)
+				.getConnection();
 	}
 	
 	@Override
@@ -49,7 +48,6 @@ public class GradeDAOImpl implements GradeDAO {
 	public GradeMemberBean selectGradeByHak(int hak) {
 		MemberBean member = new MemberBean();
 		GradeBean grade = new GradeBean();
-		Map<String,Object> map = new HashMap<String,Object>();
 		GradeMemberBean bean = new GradeMemberBean();
 		try {
 			stmt = conn.createStatement();
@@ -73,8 +71,6 @@ public class GradeDAOImpl implements GradeDAO {
 			e.printStackTrace();
 		}
 		// System.out.println("쿼리 조회 결과 :"+temp.getAddr());
-		map.put("member", member);
-		map.put("grade", grade);
 		return bean;
 	}
 
@@ -111,7 +107,6 @@ public class GradeDAOImpl implements GradeDAO {
 	public int count() {
 		int count = 0;
 		try {
-			stmt = conn.createStatement();
 			stmt.executeQuery("SELECT * FROM GradeMember").last();
 			count = rs.getRow();
 		} catch (Exception e) {
@@ -154,6 +149,12 @@ public class GradeDAOImpl implements GradeDAO {
 		
 		return bean;
 
+	}
+
+	@Override
+	public AdminBean selectById(String id, String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

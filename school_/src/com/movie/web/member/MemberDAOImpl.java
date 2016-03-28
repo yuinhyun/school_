@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.movie.web.global.Constants;
 import com.movie.web.global.DatabaseFactory;
@@ -17,26 +19,24 @@ public class MemberDAOImpl implements MemberDAO{
 	private Statement stmt; // 쿼리 전송 객체
 	private PreparedStatement pstmt; // 쿼리 전송 객체2
 	private ResultSet rs; // 리턴값 회수 객체
-	private static MemberDAO instance = new MemberDAOImpl();
+	private static MemberDAO instance = new MemberDAOImpl();//싱글톤 패턴
 	
 	
-	public static MemberDAO getInstance() 
-	{
-		return instance;//싱글톤 패턴
-	}//위에 있기에 setInstance는 삭제했다.
+	public static MemberDAO getInstance() {
+		return instance;						//싱글톤 패턴
+	}
 
-
-
+	
 	public MemberDAOImpl() {
-		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD).getConnection();
+		conn = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ID, Constants.PASSWORD)
+				.getConnection();
 	}
 	
 	@Override
 	public int insert(MemberBean member) {
-		
-		int result =0;
+		int result = 0;
 		try {
-			pstmt = conn.prepareStatement("INSERT INTO Member(id, name, password, addr, birth)"+ "VALUES(?,?,?,?,?)");
+			pstmt = conn.prepareStatement("INSERT INTO Member(id, name, password, addr, birth)"+ "VALUES (?,?,?,?,?)");
 			pstmt.setString(1, member.getId());
 			pstmt.setString(2, member.getName());
 			pstmt.setString(3, member.getPassword());
@@ -45,11 +45,10 @@ public class MemberDAOImpl implements MemberDAO{
 			
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
-			System.out.println("insert() 에러발생");
+			System.out.println("insert() 에러 발생");
 			e.printStackTrace();
 		}
-		System.out.println("회원가입 성공여부:"+result);
-		// TODO Auto-generated method stub
+		System.out.println("회원가입 성공여부 :" + result);
 		return result;
 	}
 
@@ -106,36 +105,36 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public int update(MemberBean member) {
-		int result= 0;
-		
+		int result = 0;
 		try {
-			pstmt = conn.prepareStatement("UPDATE Member SET password = ?, addr = ? WHERE id = ?");
+			pstmt = conn.prepareStatement("UPDATE MEMBER SET password =? , addr =? WHERE id =?");
 			pstmt.setString(1, member.getPassword());
 			pstmt.setString(2, member.getAddr());
 			pstmt.setString(3, member.getId());
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
 			
-			System.out.println("업데이트 에러 발생");
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("update() 에러 발생!!! ");
 			e.printStackTrace();
 		}
 		return result;
-		
 	}
 
 	@Override
 	public int delete(String id) {
-		int result= 0;
+		int result = 0;
 		try {
 			pstmt = conn.prepareStatement("DELETE FROM Member WHERE id = ?");
 			pstmt.setString(1, id);
+			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("삭제오류");
+			System.out.println("delete() 에러 발생!!!");
 			e.printStackTrace();
 		}
 		return result;
-		
+	
 	}
 
 	@Override
@@ -162,6 +161,31 @@ public class MemberDAOImpl implements MemberDAO{
 		}
 		
 		return result;
+	}
+
+
+	@Override
+	public List<MemberBean> selectList() {
+		List<MemberBean> list = new ArrayList<MemberBean>();
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT * FROM Member ");
+			
+			while(rs.next()){
+				MemberBean temp = new MemberBean();
+				temp.setId(rs.getString("id"));
+				temp.setName(rs.getString("name"));
+				temp.setPassword(rs.getString("password"));
+				temp.setAddr(rs.getString("addr"));
+				temp.setBirth(rs.getInt("birth"));
+				list.add(temp);
+			}
+		} catch (Exception e) {
+			System.out.println("getList()에서 에러 발생");
+			e.printStackTrace();
+		}
+		System.out.println("MemDAO에서 맴버리스트 출력"+list);
+		return list;
 	}
 
 }

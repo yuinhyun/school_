@@ -1,19 +1,24 @@
 package com.movie.web.grade;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.List;
+
+import com.movie.web.admin.AdminService;
+import com.movie.web.member.MemberDAO;
+import com.movie.web.member.MemberDAOImpl;
+
 
 public class GradeServiceImpl implements GradeService{
 	// 멤버 필드
-	ArrayList<GradeBean> gradeList;
-	
-	private static GradeServiceImpl instance= new GradeServiceImpl();
-	GradeDAO dao = GradeDAOImpl.getInstance();
+	private static GradeServiceImpl instance = new GradeServiceImpl();
 	
 	public static GradeServiceImpl getInstance() {
 		return instance;
 	}
+	GradeDAO dao = GradeDAOImpl.getInstance();
+	
+	ArrayList<GradeBean> gradeList;
+	
 	public GradeServiceImpl() {
 		gradeList = new ArrayList<GradeBean>(); // 초기화
 	}

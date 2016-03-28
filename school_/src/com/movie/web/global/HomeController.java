@@ -20,8 +20,8 @@ public class HomeController extends HttpServlet {
 		String directory = path.split("/")[1];
 	//	arr[1] = temp3.split("\\.")[0]; 이 방법도 가능
 		String action = temp.substring(0, temp.indexOf("."));
-		
 		command = CommandFactory.createCommand(directory,action);
+		//command.setView("aaa"); 404에러 용
 		RequestDispatcher dis = 
 				request.getRequestDispatcher(command.getView());
 				dis.forward(request, response);

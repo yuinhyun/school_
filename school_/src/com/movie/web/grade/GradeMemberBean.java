@@ -1,8 +1,15 @@
 package com.movie.web.grade;
 
 public class GradeMemberBean {
-	private int hak,java,sql,jsp,spring,birth;
-	private String id, password, name, addr;
+	private String id;
+	private int hak, java, sql, jsp, spring, birth;
+	private String  password, name, addr;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getHak() {
 		return hak;
 	}
@@ -39,12 +46,6 @@ public class GradeMemberBean {
 	public void setBirth(int birth) {
 		this.birth = birth;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getPassword() {
 		return password;
 	}
@@ -65,9 +66,9 @@ public class GradeMemberBean {
 	}
 	@Override
 	public String toString() {
-		return "성적표 [hak=" + hak + ", java=" + java + ", sql=" + sql + ", jsp=" + jsp + ", spring=" + spring
-				+ ", birth=" + birth + ", id=" + id + ", password=" + password + ", name=" + name + ", addr=" + addr
-				+ "]";
+		return "GradeMemberBean [id=" + id + ", hak=" + hak + ", java=" + java + ", sql=" + sql + ", jsp=" + jsp
+				+ ", spring=" + spring + ", birth=" + birth + ", password=" + password + ", name=" + name + ", addr="
+				+ addr + "]";
 	}
-	
+
 }

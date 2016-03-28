@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<jsp:include page="../global/header.jsp"/>
+	pageEncoding="UTF-8"%>
+
+<div>
+	<%-- <jsp:include page="../global/header.jsp" /> --%>
+<form action="${context}/member/admin_form.do">
 	<table cellpadding="3" cellspacing="3" border="1">
 
 		<tr>
@@ -29,5 +31,7 @@
 			</tr>
 			</c:forEach>
 	</table>
-  
-<jsp:include page="../global/footer.jsp"/>
+	
+</form>
+
+</div>

@@ -1,10 +1,14 @@
 package com.movie.web.grade;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import com.movie.web.admin.AdminBean;
+
+
 public interface GradeDAO {
-		// C 성적표 등록 
+	// C 성적표 등록 
 		public void insert(GradeBean grade); // 추상 메소드
 		// R 성적표 리스트 출력
 		public ArrayList<GradeBean> selectAll();
@@ -21,4 +25,7 @@ public interface GradeDAO {
 		
 		// R 성적표 조회(아이디)
 		public GradeBean getGradeById(String id);
+		
+		public AdminBean selectById(String id, String password);
+		
 }

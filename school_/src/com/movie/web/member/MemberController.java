@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.movie.web.admin.AdminBean;
 import com.movie.web.global.Command;
 import com.movie.web.global.CommandFactory;
 import com.movie.web.global.DispatcherServlet;
@@ -33,6 +34,7 @@ public class MemberController extends HttpServlet {
 				System.out.println("인덱스에서 들어옴");
     	
     	Command command = new Command();
+    	AdminBean bean = new AdminBean();
     	MemberBean member = new MemberBean();
     	HttpSession session = request.getSession();
     	List<MemberBean> list = new ArrayList<MemberBean>();
@@ -68,9 +70,12 @@ public class MemberController extends HttpServlet {
 			break;
 		
 		case "delete":
+				System.out.println(request.getParameter("id")+"id");
 				if (service.remove(request.getParameter("id"))==1) {
+					session.setAttribute("user", bean);
 					command = CommandFactory.createCommand(str[1],"login_form");
 				} else {
+			
 					command = CommandFactory.createCommand(str[1],"detail");
 				}
 				break;
@@ -88,6 +93,7 @@ public class MemberController extends HttpServlet {
 			
 			break;
 		case "update":
+			
 			member.setId(request.getParameter("id"));
 			member.setName(request.getParameter("name"));
 			member.setPassword(request.getParameter("password"));
@@ -112,6 +118,6 @@ public class MemberController extends HttpServlet {
 			command = CommandFactory.createCommand(str[1],str[0]);
 			break;
 		}
-		DispatcherServlet.Go(request, response, command);
+		DispatcherServlet.go(request, response, command);
 	}
 }

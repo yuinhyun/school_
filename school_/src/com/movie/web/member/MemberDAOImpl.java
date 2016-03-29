@@ -124,6 +124,7 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public int delete(String id) {
 		int result = 0;
+		
 		try {
 			pstmt = conn.prepareStatement("DELETE FROM Member WHERE id = ?");
 			pstmt.setString(1, id);

@@ -24,8 +24,8 @@ VALUES('mang', '망둥어','6','대구',830704);
 INSERT INTO Member(id, name, password, addr, birth)
 VALUES('you', '유아인','1','강릉',860424);
 
-SELECT * FROM Member;
-WHERE id ='choi';
+SELECT * FROM Member
+WHERE id ='hong';
 
 DELETE FROM Member WHERE id ='yuyuyuyu';
 DELETE FROM Member WHERE id ='hong';

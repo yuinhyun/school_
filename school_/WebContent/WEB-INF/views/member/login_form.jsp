@@ -29,7 +29,7 @@
          
       </div>
       <div class="input_button text-center">
-         <img src="${context}/resources/img/member/login.jpg" id="loginButton" alt="" />
+         <img src="${context}/resources/img/main/login.jpg" id="loginButton" alt="" />
       </div>
       </form>
    </div>

@@ -41,9 +41,10 @@ public class AdminController extends HttpServlet {
 		case "login" :
 			System.out.println("관리자 로그인 진입");
 			admin.setId(request.getParameter("id"));
+			
 			admin.setPassword(request.getParameter("password"));
 			AdminBean temp = service.getAdmin(admin);
-			if (temp == null) {
+			if (temp.getId() == null) {
 				System.out.println("관리자 로그인 실패");
 				command = CommandFactory.createCommand(str[1], "login_form");
 			} else {
@@ -57,7 +58,7 @@ public class AdminController extends HttpServlet {
 			command = CommandFactory.createCommand(str[1], str[0]);
 			break;
 		}
-		DispatcherServlet.Go(request, response, command);
+		DispatcherServlet.go(request, response, command);
     }
  
 }

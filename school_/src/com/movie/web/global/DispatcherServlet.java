@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.movie.web.global.Command;
 
 public class DispatcherServlet {
-	public static void Go(HttpServletRequest request, HttpServletResponse response, Command command) {
+	public static void go(HttpServletRequest request, HttpServletResponse response, Command command) {
 	
 		try {
 			RequestDispatcher dis = request.getRequestDispatcher(command.getView());

@@ -22,7 +22,7 @@ public class JsController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String[] str = Seperator.divide(request, response);
-		DispatcherServlet.Go(request, response, CommandFactory.createCommand(str[1], str[0]));
+		DispatcherServlet.go(request, response, CommandFactory.createCommand(str[1], str[0]));
 		
 	}
 }

@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="../member/member_header.jsp"/>
 <div id="detail">
+
 		<div class="joinTop">
 			<h2 class="text-center">${sessionScope.user.name} 수정정보</h2>
 		</div>
+		
 		<div class="joinCenter row">
 			<form action="${context}/member/update.do" method="post" name="updateForm" class="form-horizontal">
 				<fieldset class="joinField">
 					<div class="form-group">
 					 	<label for="input_id" class="col-sm-4 control-label">아이디</label>
 					 	<div class="col-sm-4">
-							<input type="text" class="form-control" id="id" name="id" value="${sessionScope.user.id }" readonly="readonly"/>
+							<input type="text" class="form-control" id="id" name="id" value="${sessionScope.user.id}" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -52,7 +54,7 @@
 		    $(function() {
 		  $('form').addClass('form-horizontal');
 			$('#updateButton').addClass('btn btn-primary').click(function() {
-				location.href = '${context}/member/detail.do?id=${member.id}'; 
+				location.href = '${context}/member/detail.do?id=${sessionScope.user.id}'; 
 			});
 	 
 	         });

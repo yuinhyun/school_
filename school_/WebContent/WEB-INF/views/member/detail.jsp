@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="../global/header.jsp"/>
+<jsp:include page="../member/member_header.jsp"/>
 <div id="detail">
 		<div class="joinTop">
-			<h2 class="text-center">${sessionScope.user.name} 상제정보</h2>
+			<h2 class="text-center">${sessionScope.user.name} 상세정보</h2>
 		</div>					
 		<div class="joinCenter row">
 			<form >
@@ -10,7 +10,7 @@
 					<div class="form-group">
 					 	<label for="input_id" class="col-sm-4 control-label">아이디</label>
 					 	<div class="col-sm-4">
-							<input type="text" class="form-control" id="id" name="id" value="${sessionScope.user.id }" readonly="readonly"/>
+							<input type="text" class="form-control" id="id" name="id" value="${sessionScope.user.id}" readonly="readonly"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -58,10 +58,10 @@
 	      
 	     
 			$('#deleteButton').addClass('btn btn-primary').click(function() {
-		       location.href = '${context}/member/delete.do';
+		       location.href = '${context}/member/delete.do?id=${sessionScope.user.id}';
 	          	 });
 	      	$('#scoreButton').addClass('btn btn-primary').click(function() {
-		       location.href = '${context}/grade/my_grade.do';
+		       location.href = '${context}/grade/my_grade.do?id=${sessionScope.user.id}';
 	          	 });
 	         });
 	   

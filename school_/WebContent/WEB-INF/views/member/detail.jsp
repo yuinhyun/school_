@@ -61,7 +61,7 @@
 		       location.href = '${context}/member/delete.do?id=${sessionScope.user.id}';
 	          	 });
 	      	$('#scoreButton').addClass('btn btn-primary').click(function() {
-		       location.href = '${context}/grade/my_grade.do?id=${sessionScope.user.id}';
+		       location.href = '${context}/grade/grade_add.do?id=${sessionScope.user.id}';
 	          	 });
 	         });
 	   

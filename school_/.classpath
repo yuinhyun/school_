@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="C:/jee/jar/Jstl.jar"/>
 	<classpathentry kind="lib" path="C:/jee/jar/mail.jar"/>
 	<classpathentry kind="lib" path="C:/jee/jar/standard.jar"/>
+	<classpathentry kind="lib" path="C:/jee/tomcat-8/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
